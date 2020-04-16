@@ -1,29 +1,35 @@
-ds = [1 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33 35 37 39 41];
-seconds = zeros(length(ds),1);
-secondsmu = zeros(length(ds),1);
-secondsimp = zeros(length(ds),1);
+datapoints = 100;
+
+ds = zeros(length(datapoints),1);
+for i = 1:datapoints
+    ds(i) = 2*i - 1;
+end
+
+% seconds = zeros(length(ds),1);
+% secondsmu = zeros(length(ds),1);
+% secondsimp = zeros(length(ds),1);
 secondsimp2 = zeros(length(ds),1);
 firsts = zeros(length(ds),1);
-quos = zeros(length(ds),1);
-quos2 = zeros(length(ds),1);
-quos3 = zeros(length(ds),1);
+% quos = zeros(length(ds),1);
+% quos2 = zeros(length(ds),1);
+% quos3 = zeros(length(ds),1);
 
 for i = 1:length(ds)
     d = ds(i);
     m = (d-1)/2;
 
-    D = roof(m-1,0);
-    N = roof(m+1,2);
-    Dp = Dp0(m);
-    Np = Np0(m);
-    N2p = N2p0(m);
-    D2p = D2p0(m);
-
-    seconds(i) = 2*((N2p - factorial(d)*D2p)/(factorial(d)*D)) - (V1(m)*Dp/D);
-    secondsmu(i) = 2*(mu(m)/N) - (V1(m)*Dp/D);
-    secondsimp(i) = (6*sig2sumovern(m)) - (V1(m)*DpoverD(m));
-    quos(i) = (secondsmu(i)/seconds(i));
-    quos2(i) = (secondsimp(i)/secondsmu(i));
+%     D = roof(m-1,0);
+%     N = roof(m+1,2);
+%     Dp = Dp0(m);
+%     Np = Np0(m);
+%     N2p = N2p0(m);
+%     D2p = D2p0(m);
+% 
+%     seconds(i) = 2*((N2p - factorial(d)*D2p)/(factorial(d)*D)) - (V1(m)*Dp/D);
+%     secondsmu(i) = 2*(mu(m)/N) - (V1(m)*Dp/D);
+%     secondsimp(i) = (6*sig2sumovern(m)) - (V1(m)*DpoverD(m));
+%     quos(i) = (secondsmu(i)/seconds(i));
+%     quos2(i) = (secondsimp(i)/secondsmu(i));
     firsts(i) = 0.5*V1(m);
     
     % Try out the simplifications I got for the doubly indexed sums
@@ -58,18 +64,20 @@ for i = 1:length(ds)
     
     secondsimp2(i) = 6*(firstsum + secondsum + thirdsum + fourthsum) - dsum;
     
-    quos3(i) = secondsimp2(i)/secondsimp(i);
+    %quos3(i) = secondsimp2(i)/secondsimp(i);
 end
 
 figure(1);
-plot(ds, firsts, 'r--o');
+plot(ds, firsts, 'r--.');
 hold on;
-plot(ds, seconds, 'b--o');
+%plot(ds, ds, 'k-');
+%plot(ds, seconds, 'b--o');
 %plot(ds, secondsmu, 'g--o');
-plot(ds, secondsimp, 'k--o');
-plot(ds, secondsimp2, 'g--o');
+%plot(ds, secondsimp, 'k--o');
+plot(ds, secondsimp2, 'b--.');
 hold off;
-legend('Firsts', 'Seconds', 'Secondsimp', 'Secondsimp2', 'Location', 'NorthWest');
+legend('Firsts', 'Seconds', 'Location', 'NorthWest');
+%legend('Firsts', 'Line', 'Seconds', 'Secondsmu', 'Secondsimp', 'Secondsimp2', 'Location', 'NorthWest');
 
 % plot(ds, secondsimp, 'b--o');
 % xlabel('Dimension d');
