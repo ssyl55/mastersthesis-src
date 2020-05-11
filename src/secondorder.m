@@ -1,16 +1,17 @@
-datapoints = 100;
+datapoints = 20;
 
 ds = zeros(length(datapoints),1);
 for i = 1:datapoints
     ds(i) = 2*i - 1;
 end
 
-% seconds = zeros(length(ds),1);
+seconds = zeros(length(ds),1);
 % secondsmu = zeros(length(ds),1);
 % secondsimp = zeros(length(ds),1);
 secondsimp2 = zeros(length(ds),1);
 firsts = zeros(length(ds),1);
-% quos = zeros(length(ds),1);
+quos = zeros(length(ds),1);
+firstsums = zeros(length(ds),1);
 % quos2 = zeros(length(ds),1);
 % quos3 = zeros(length(ds),1);
 
@@ -18,14 +19,14 @@ for i = 1:length(ds)
     d = ds(i);
     m = (d-1)/2;
 
-%     D = roof(m-1,0);
-%     N = roof(m+1,2);
-%     Dp = Dp0(m);
-%     Np = Np0(m);
-%     N2p = N2p0(m);
-%     D2p = D2p0(m);
+    D = roof(m-1,0);
+    N = roof(m+1,2);
+    Dp = Dp0(m);
+    Np = Np0(m);
+    N2p = N2p0(m);
+    D2p = D2p0(m);
 % 
-%     seconds(i) = 2*((N2p - factorial(d)*D2p)/(factorial(d)*D)) - (V1(m)*Dp/D);
+    seconds(i) = 2*((N2p - factorial(d)*D2p)/(factorial(d)*D)) - (V1(m)*Dp/D);
 %     secondsmu(i) = 2*(mu(m)/N) - (V1(m)*Dp/D);
 %     secondsimp(i) = (6*sig2sumovern(m)) - (V1(m)*DpoverD(m));
 %     quos(i) = (secondsmu(i)/seconds(i));
@@ -42,7 +43,14 @@ for i = 1:length(ds)
             end
         end
     end
-    
+    firstsums(i) = firstsum;
+%     
+    %firstsum = (3/2)*((sqrt(pi)*gamma(m+2)*(-4*(m+2)+(2*m+3)*harmonic(m+3/2)))/(2*gamma(m+5/2))+log(16));
+    %firstsum = firstsum + (1/5)*((sqrt(pi)*(m+8)*gamma(m+3))/(gamma(m+3/2))-32);
+    %firstsum = firstsum + (log(8)-6)*((sqrt(pi)*gamma(m+2))/(gamma(m+3/2))-2);
+    %firstsum = firstsum -2*m;
+    firstsums(i) = firstsum;
+
     % Second sum:
     secondsum = 2*m^2/((2*m-1)*(2*m+1))-(2*m*sqrt(pi)*gamma(m))/((2*m-1)*(2*m+1)*gamma(m-0.5));
     
@@ -64,7 +72,7 @@ for i = 1:length(ds)
     
     secondsimp2(i) = 6*(firstsum + secondsum + thirdsum + fourthsum) - dsum;
     
-    %quos3(i) = secondsimp2(i)/secondsimp(i);
+    quos(i) = secondsimp2(i)/seconds(i);
 end
 
 figure(1);
@@ -74,9 +82,9 @@ hold on;
 %plot(ds, seconds, 'b--o');
 %plot(ds, secondsmu, 'g--o');
 %plot(ds, secondsimp, 'k--o');
-plot(ds, secondsimp2, 'b--.');
+plot(ds, firstsums, 'b--.');
 hold off;
-legend('Firsts', 'Seconds', 'Location', 'NorthWest');
+legend('Firsts', 'firstsums', 'Location', 'NorthWest');
 %legend('Firsts', 'Line', 'Seconds', 'Secondsmu', 'Secondsimp', 'Secondsimp2', 'Location', 'NorthWest');
 
 % plot(ds, secondsimp, 'b--o');
