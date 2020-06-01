@@ -1,7 +1,7 @@
 datapoints = 20;
 
 ds = zeros(length(datapoints),1);
-for i = 2:datapoints
+for i = 1:datapoints
     ds(i) = 2*i - 1;
 end
 
@@ -78,7 +78,7 @@ for i = 1:length(ds)
     
     ms(i) = m;
     
-    approx = V1(m)*(((3*(m-1))/(2*m+1))+0.5*V1(m))+6*((-4*m^3+4*m^2+2*m-1)/((2*m-1)*(2*m+1)))-8;
+    approx = V1(m)*((3*(m-1))/(28m
     approxs(i) = approx;
 end
 
@@ -87,12 +87,12 @@ plot(ds, firsts, 'ro');
 hold on;
 %plot(ds, fourthsums, 'bo');
 %plot(ds, ds, 'k-');
-%plot(ds, seconds, 'bo');
+plot(ds, seconds, 'bo');
 %plot(ds, secondsimp, 'g.');
-plot(ds, secondsimp2, 'bo');
+plot(ds, secondsimp2, 'k.');
 plot(ds, approxs, 'go');
 hold off;
-legend('First Order Term', 'Second Order Term', 'Approximation', 'Location', 'NorthWest');
+legend('First Order Term', 'Second Order Term', 'secondsimp2', 'Approximation', 'Location', 'NorthWest');
 set(gca, 'FontSize', 15);
 %legend('Firsts', 'Line', 'Seconds', 'Secondsmu', 'Secondsimp', 'Secondsimp2', 'Location', 'NorthWest');
 
