@@ -1,4 +1,4 @@
-datapoints = 20;
+datapoints = 40;
 
 ds = zeros(length(datapoints),1);
 for i = 2:datapoints
@@ -72,14 +72,14 @@ for i = 1:length(ds)
     %dsum = V1(m)*((m+1)-(2^(2*m)*(factorial(m))^2)/(factorial(2*m)));
     dsum = V1(m)*((m+1)-(sqrt(pi)*gamma(m+1)/gamma(m+1/2)));
     
-    secondsimp2(i) = 6*(firstsum + secondsum + thirdsum + fourthsum) - dsum;
-    
-    quos(i) = secondsimp2(i)/seconds(i);
+    secondsimp2(i) = 6*(firstsum + secondsum + thirdsum + 0) - dsum;
     
     ms(i) = m;
     
-    approx = V1(m)*(((3*(m-1))/(2*m+1))+0.5*V1(m))+6*((-4*m^3+4*m^2+2*m-1)/((2*m-1)*(2*m+1)))-8;
+    approx = 0.5*(V1(m))^2+V1(m)*((3*(m-1))/(2*m+1)) - ((2*(12*m^3+4*m^2-6*m-1))/((2*m-1)*(2*m+1)));
     approxs(i) = approx;
+    
+    quos(i) = secondsimp2(i)/approxs(i);
 end
 
 figure(1);
@@ -87,12 +87,13 @@ plot(ds, firsts, 'ro');
 hold on;
 %plot(ds, fourthsums, 'bo');
 %plot(ds, ds, 'k-');
-%plot(ds, seconds, 'bo');
+plot(ds, seconds, 'bo');
 %plot(ds, secondsimp, 'g.');
-plot(ds, secondsimp2, 'bo');
+plot(ds, secondsimp2, 'k.');
 plot(ds, approxs, 'go');
+plot(ds, 6*fourthsum, 'co');
 hold off;
-legend('First Order Term', 'Second Order Term', 'Approximation', 'Location', 'NorthWest');
+legend('First Order Term', 'Second Order Term', 'Approximation', 'Fourthsum', 'Location', 'NorthWest');
 set(gca, 'FontSize', 15);
 %legend('Firsts', 'Line', 'Seconds', 'Secondsmu', 'Secondsimp', 'Secondsimp2', 'Location', 'NorthWest');
 
